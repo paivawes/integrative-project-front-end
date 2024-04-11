@@ -1,14 +1,15 @@
-import { BrowserRouter } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-import { Router } from './router'
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Login } from './components/pages/login/login';
+import { Schedule } from './components/pages/schedule/schedule';
 
 export default function App() {
   return (
-    <h1>qweqw</h1>
-    // <ThemeProvider>
-    //   <BrowserRouter>
-    //     <Router />
-    //   </BrowserRouter>
-    // </ThemeProvider>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} /> 
+          <Route path="/agendamento" element={<Schedule />} />
+           </Routes>
+      </Router>
   );
 }
