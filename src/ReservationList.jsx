@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from './api';
 
-function ReservationList({ token }) {
+function ReservationList({ token, refresh }) {
   const [reservations, setReservations] = useState([]);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function ReservationList({ token }) {
     };
 
     fetchReservations();
-  }, [token]);
+  }, [token, refresh]);
 
   return (
     <div>
