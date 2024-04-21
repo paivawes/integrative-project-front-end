@@ -1,0 +1,65 @@
+
+.bgLogin{
+    height: 100vh;
+    width: 100%;
+    background-color: blueviolet;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+.login {
+   height: 450px;
+   width: 500px;
+   align-items: center;
+   display: flex;
+   flex-direction: column;
+   background-color: white;
+}
+.th3{
+    background-color: #07bdf0f2;
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.btlogin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 400px;
+    margin-bottom: 35px;
+    margin-top: 40px;
+}
+
+.btlogin button{
+    width: 400px;
+    height: 40px;
+    background-color: white;
+    border: 2px solid rgb(190, 187, 187);
+    color: rgb(190, 187, 187);
+}
+
+.btlogin button:hover{
+    background-color: #07bdf0f2;
+    color:white;
+    cursor: pointer;
+
+}
+
+.plogin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.plogin p{
+    display: flex;
+    font-weight: bolder;
+}
+
+
+
