@@ -4,6 +4,7 @@ const teste = [
   {id: 1, room_id: 1, date: '12/02/2024', start_time: '11:00', end_time: '14:30', status: 'pendente'}
 ]
 
+
 function ReservationList({ token }) {
   const [reservations, setReservations] = useState(teste);
 
@@ -20,9 +21,9 @@ function ReservationList({ token }) {
   //       console.error('Erro ao buscar reservas:', error);
   //     }
   //   };
+    fetchReservations();
+  }, [token, refresh]);
 
-  //   fetchReservations();
-  // }, [token]);
 
   return (
     <div>
