@@ -69,6 +69,16 @@ function RoomList({ token, startTime, endTime, updateReservationList }) {
     }
   };
 
+
+const teste = [
+  {id: 1, name: 'Sala 1', capacity: 100},
+  {id: 2,name: 'Sala 2', capacity: 50},
+  {id: 3,name: 'Sala 3', capacity: 36},
+  {id: 4,name: 'Sala 4', capacity: 83}
+]
+
+
+
   return (
     <div>
       {startTime && endTime && (

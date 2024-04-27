@@ -1,43 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Login from './Login';
-import Dashboard from './Dashboard';
-import api from './api';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Login } from './components/pages/login/login';
+import { Schedule } from './components/pages/schedule/schedule';
 
-function App() {
-  const [token, setToken] = useState('');
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    if (storedToken) {
-      setToken(storedToken);
-    }
-  }, []);
-
-  const handleLogin = async (username, password) => {
-    try {
-      const response = await api.post('/login', { username, password });
-      const { token } = response.data;
-      setToken(token);
-      localStorage.setItem('token', token);
-    } catch (error) {
-      console.error('Erro ao fazer login:', error.response.data);
-    }
-  };
-
-  const handleLogout = () => {
-    setToken('');
-    localStorage.removeItem('token');
-  };
-
+export default function App() {
   return (
-    <div>
-      {!token ? (
-        <Login handleLogin={handleLogin} />
-      ) : (
-        <Dashboard token={token} handleLogout={handleLogout} />
-      )}
-    </div>
+      <Router>
+        <Routes>
+          <Route path="/login" element={<Login />} /> 
+          <Route path="/agendamento" element={<Schedule />} />
+           </Routes>
+      </Router>
   );
 }
-
-export default App;
