@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Input } from "../../atoms/input/input";
-import { LoginContianer, LoginStyles, Title } from './login-styles';
+import { LoginContainer, LoginStyles, Title } from './login-styles';
 import { Button } from '../../atoms/button/button';
 
 
@@ -10,7 +10,7 @@ export const Login = () => {
 
 
   return (
-    <LoginContianer>
+    <LoginContainer>
       <LoginStyles>
         <Title>{'Login'}</Title>
         <Input
@@ -32,6 +32,6 @@ export const Login = () => {
         />
         </div>
       </LoginStyles>
-    </LoginContianer>
+    </LoginContainer>
   );
 }

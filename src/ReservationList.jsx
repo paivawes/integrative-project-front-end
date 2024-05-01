@@ -21,8 +21,8 @@ function ReservationList({ token }) {
   //       console.error('Erro ao buscar reservas:', error);
   //     }
   //   };
-    fetchReservations();
-  }, [token, refresh]);
+  //   fetchReservations();
+  // }, [token, refresh]);
 
 
   return (
