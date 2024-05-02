@@ -21,8 +21,6 @@ export const LoginStyles = styled.div`
 `
 
 export const Title = styled.p`
-    color: black;
     font-size: 40px;
     font-weight: 700;
-    margin: 0px;
 `

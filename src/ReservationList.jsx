@@ -27,7 +27,7 @@ function ReservationList({ token }) {
 
   return (
     <div>
-      <h2>Minhas Reservas</h2>
+      <h2>Solicitações</h2>
       <ul>
         {reservations.map((reservation) => (
           <li key={reservation.id}>
