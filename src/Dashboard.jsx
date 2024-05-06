@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import ptBR from 'date-fns/locale/pt-BR';
-import RoomList from './RoomList';
-import ReservationList from './ReservationList';
+import AvailableRooms from './AvailableRooms';
+import UserRequests from './UserRequests';
 
 function Dashboard({ token, handleLogout }) {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [refreshReservationList, setRefreshReservationList] = useState(false); // Estado para atualizar a lista de reservas
+  const [refreshUserRequests, setRefreshUserRequests] = useState(false); // Estado para atualizar a lista de reservas
 
   useEffect(() => {
     if (token) {
@@ -23,16 +23,16 @@ function Dashboard({ token, handleLogout }) {
 
   const handleStartTimeChange = (time) => {
     setStartTime(time);
-    setRefreshReservationList(!refreshReservationList); // Atualiza a lista de reservas ao alterar o horário de início
+    setRefreshUserRequests(!refreshUserRequests); // Atualiza a lista de reservas ao alterar o horário de início
   };
 
   const handleEndTimeChange = (time) => {
     setEndTime(time);
-    setRefreshReservationList(!refreshReservationList); // Atualiza a lista de reservas ao alterar o horário de término
+    setRefreshUserRequests(!refreshUserRequests); // Atualiza a lista de reservas ao alterar o horário de término
   };
 
-  const updateReservationList = () => {
-    setRefreshReservationList(!refreshReservationList); // Atualiza o estado para exibir a lista de reservas
+  const updateUserRequests = () => {
+    setRefreshUserRequests(!refreshUserRequests); // Atualiza o estado para exibir a lista de reservas
   };
 
   return (
@@ -66,8 +66,8 @@ function Dashboard({ token, handleLogout }) {
               locale={ptBR}
             />
           </div>
-          <RoomList token={token} startTime={startTime} endTime={endTime} updateReservationList={updateReservationList} />
-          <ReservationList token={token} />
+          <AvailableRooms token={token} startTime={startTime} endTime={endTime} updateUserRequests={updateUserRequests} />
+          <UserRequests token={token} />
         </>
       ) : (
         <button onClick={handleLogin}>Login</button>
