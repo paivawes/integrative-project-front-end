@@ -5,11 +5,12 @@ export const Input = ({
     label,
     type,
     value,
-    onChange
+    onChange,
+    width
 }) => {
     return (
         <InputStyles
-            sx={{margin: '10px'}}
+            sx={{margin: '10px', width: width}}
             id="standard-basic"
             label={label}
             variant="standard"

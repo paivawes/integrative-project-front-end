@@ -12,13 +12,13 @@ export const Schedule = () => {
         <ScheduleContainer>
             <ScheduleStyles>
               <Schedules />
-              {/* Exibir todas as salas que já foram reservadas? */}
               <Title>{'Reservar Sala'}</Title>
               <ScheduleInputs>
                 <DateTime />
                 <div>
                   <h2>Descrição</h2>
                   <Input
+                    width={300}
                     label={'Observações (opcional)'}
                   />
                 </div>
