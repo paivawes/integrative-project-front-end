@@ -1,6 +1,5 @@
 import React from "react";
 import { ScheduleContainer, ScheduleStyles, Title, ScheduleInputs, SpaceBetween } from './schedule-styles';
-import Schedules from "../../../Schedules";
 import DateTime from "../../../DateTime";
 import UserRequests from "../../../UserRequests";
 import AvailableRooms from "../../../AvailableRooms";
@@ -11,7 +10,6 @@ export const Schedule = () => {
         // Falta o menu...
         <ScheduleContainer>
             <ScheduleStyles>
-              <Schedules />
               <Title>{'Reservar Sala'}</Title>
               <ScheduleInputs>
                 <DateTime />
