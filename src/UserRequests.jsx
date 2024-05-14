@@ -68,4 +68,17 @@ function UserRequests({requests}) {
   );
 }
 
+function getStatusColor(status) {
+  switch (status) {
+    case 'Aprovada':
+      return 'success';
+    case 'Pendente':
+      return 'warning';
+    case 'Reprovada':
+      return 'error';
+    default:
+      return 'default';
+  }
+}
+
 export default UserRequests;
