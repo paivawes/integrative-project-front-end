@@ -1,5 +1,9 @@
 {
   "routes": [
     { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  ],
+  "crons": [{
+  "path": "/api/cron",
+  "schedule": "0 10 * * *"
+  }]
 }
