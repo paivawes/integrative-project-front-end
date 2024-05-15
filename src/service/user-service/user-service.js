@@ -4,7 +4,8 @@ export class UserService {
 
     path
     login
-    auth
+    auth  
+    
 
     constructor() {
         this.path = 'user'
