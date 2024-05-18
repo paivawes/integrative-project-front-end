@@ -90,5 +90,3 @@ function AvailableRooms({ startDate, endDate }) {
     </div>
   );
 }
-
-export default AvailableRooms;
