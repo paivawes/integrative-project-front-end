@@ -73,4 +73,8 @@ function AvailableRooms({ startDate, endDate }) {
   );
 }
 
+<<<<<<< HEAD
 export default AvailableRooms;
+=======
+export default AvailableRooms;
+>>>>>>> ad0da92 (fix: export schedule)
