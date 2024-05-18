@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { format, formatISO } from 'date-fns';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -8,69 +9,48 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Chip from '@mui/material/Chip';
 
-const teste = [
-  {id: 1, room_id: 1, date: '12/02/2024', start_time: '11:00', end_time: '14:30', description: 'Lorem ipsum dolor sit amet', status: 'Pendente'},
-  {id: 2, room_id: 2, date: '12/02/2024', start_time: '11:00', end_time: '14:30', description: 'Sem obervações', status: 'Aprovada'},
-  {id: 3, room_id: 3, date: '12/02/2024', start_time: '11:00', end_time: '14:30', description: 'Vel rerum assumenda quidem magnam explicabo', status: 'Recusada'}
-]
+const requestsTest = [
+  {id: 1, user_id: 1, room_name: 'Sala 1', created_at: '2024-05-12T10:00:00', start_time: '2024-05-12T11:00:00', end_time: '2024-05-12T14:30:00', description: 'Lorem ipsum dolor sit amet', status: 'Pendente'},
+  {id: 2, user_id: 1, room_name: 'Sala 2', created_at: '2024-05-04T11:00:00', start_time: '2024-05-04T11:00:00', end_time: '2024-05-05T11:00:00', description: 'Sem obervações', status: 'Aprovada'}
+];
 
+function UserRequests() {
+  const [userRequests, setUserRequests] = useState(requestsTest);
+  const hasRequests = userRequests.length > 0;
 
-function UserRequests({ token }) {
-  const [schedules, setSchedules] = useState(teste);
-
-  // useEffect(() => {
-  //   const fetchSchedules = async () => {
-  //     try {
-  //       const response = await api.get('/schedules', {
-  //         headers: {
-  //           Authorization: token,
-  //         },
-  //       });
-  //       setSchedules(response.data);
-  //     } catch (error) {
-  //       console.error('Erro ao buscar reservas:', error);
-  //     }
-  //   };
-  //   fetchSchedules();
-  // }, [token, refresh]);
-
+  if (!hasRequests) {
+    return null;
+  }
 
   return (
     <div>
       <h2>Solicitações</h2>
-      {/* <ul>
-        {schedules.map((schedule) => (
-          <li key={schedule.id}>
-            Sala: {schedule.room_id} - Data: {schedule.date} - Início: {schedule.start_time} - Fim: {schedule.end_time} - Status: {schedule.status}
-          </li>
-        ))}
-      </ul> */}
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650}} aria-label="simple table">
+      <TableContainer sx={{maxWidth: 800}} component={Paper}>
+        <Table sx={{minWidth: 650}} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>Sala</TableCell>
-              <TableCell align="right">Data</TableCell>
-              <TableCell align="right">Horário</TableCell>
+              <TableCell>Status</TableCell>
+              <TableCell align="right">Sala</TableCell>
+              <TableCell align="right">Início</TableCell>
+              <TableCell align="right">Término</TableCell>
               <TableCell align="right">Descrição</TableCell>
-              <TableCell align="right">Status</TableCell>
+              <TableCell align="right">Data</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {schedules.map((schedule) => (
+            {userRequests.map((request) => (
               <TableRow
-                key={schedule.id}
+                key={request.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  Nome da Sala
+                  <Chip label={request.status} color={getStatusColor(request.status)} variant="outlined" />
                 </TableCell>
-                <TableCell align="right">{schedule.date}</TableCell>
-                <TableCell align="right">{schedule.start_time + " - " + schedule.end_time}</TableCell>
-                <TableCell align="right">{schedule.description}</TableCell>
-                <TableCell align="right">
-                  <Chip label={schedule.status} color="success" variant="outlined" />
-                  </TableCell>
+                <TableCell align="right" sx={{maxWidth: 150, whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>{request.room_name}</TableCell>
+                <TableCell align="right">{format(new Date(request.start_time), "dd/MM/yyyy HH:mm")}</TableCell>
+                <TableCell align="right">{format(new Date(request.end_time), "dd/MM/yyyy HH:mm")}</TableCell>
+                <TableCell align="right" sx={{maxWidth: 150, whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>{request.description}</TableCell>
+                <TableCell align="right">{format(new Date(formatISO(request.created_at)), "dd/MM/yyyy")}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -78,6 +58,19 @@ function UserRequests({ token }) {
       </TableContainer>
     </div>
   );
+}
+
+function getStatusColor(status) {
+  switch (status) {
+    case 'Aprovada':
+      return 'success';
+    case 'Pendente':
+      return 'warning';
+    case 'Reprovada':
+      return 'error';
+    default:
+      return 'default';
+  }
 }
 
 export default UserRequests;
