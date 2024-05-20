@@ -44,10 +44,10 @@ export const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <div>
-        <Button
-        label={'Entrar'}
-        onClick={() => {}}
-        />
+          <Button
+            label={'Entrar'}
+            onClick={fetch}
+          />
         </div>
         <Link onClick={() => navigate('/criar-conta')}>
         {'realizar cadastro '}
