@@ -1,36 +1,40 @@
 import React, { useState } from 'react';
 import { Input } from "../../atoms/input/input";
-import { LoginContainer, LoginStyles, Title } from './login-styles';
+import { RegisterContainer, RegisterStyles, Title } from './create-user-styles';
 import { Button } from '../../atoms/button/button';
 import { UserService } from '../../../service/user-service/user-service';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../../../context/user-context';
-import { Link } from '@mui/material';
 
 
-export const Login = () => {
+export const Register = () => {
+
+  const [name, setName] = useState()
   const [email, setEmail] = useState()
   const [password, setPassword] = useState()
-
-  const { setUser } = useUser()
 
   const navigate = useNavigate()
   const userService = new UserService()
 
   const fetch = () => {
-    userService.log({
+    userService.create({
+      name: name,
       email: email,
       password: password
     }).then((res) => {
-      setUser(res.data.user)
-      navigate('/agendamento')
+      navigate('/login')
     })
   }
 
   return (
-    <LoginContainer>
-      <LoginStyles>
-        <Title>{'Login'}</Title>
+    <RegisterContainer>
+      <RegisterStyles>
+        <Title>{'Cadastro de novo usuário'}</Title>
+        <Input
+          label={'Nome completo'}
+          type={'text'}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <Input
           label={'E-mail'}
           type={'email'}
@@ -45,14 +49,11 @@ export const Login = () => {
         />
         <div>
           <Button
-            label={'Entrar'}
+            label={'Cadastrar'}
             onClick={fetch}
           />
         </div>
-        <Link onClick={() => navigate('/criar-conta')}>
-        {'realizar cadastro '}
-        </Link>
-      </LoginStyles>
-    </LoginContainer>
+      </RegisterStyles>
+    </RegisterContainer>
   );
 }
