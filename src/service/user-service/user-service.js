@@ -5,22 +5,24 @@ export class UserService {
     path
     login
     auth  
-    
-
     constructor() {
-        this.path = 'user'
-        this.login = 'login'
+        this.path = '/user'
+        this.login = '/login'
         this.auth = new AuthService()
     }
 
-    async log(request){
-        const response = await this.auth.getApi().post(this.login, request)
+    async log(request) {
+        try {
+            const response = await this.auth.getApi().post(this.login, request)
+            const token = response.data.token
+            
+            this.auth.setAuthorizationHeader(token)  
 
-        console.log(response)
-
-        // const autentication = await this.auth.setAuthorizationHeader(response.token)
-
-        return response
+            return response
+        } catch (error) {
+            console.error('Erro ao fazer login:', error)
+            throw error;
+        }
     }
 
     async findAll() {
@@ -28,8 +30,8 @@ export class UserService {
         return response.data
     }
 
-    async create(request) {
-        const response = await this.auth.getApi().post(this.path, request)
+    async create(user) {
+        const response = await this.auth.getApi().post(this.path, user)
         return response.data
     }
 }

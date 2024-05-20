@@ -7,13 +7,12 @@ class AuthService {
         });
 
         this.auth.interceptors.request.use((config) => {
-            return config;
+            const token = this.getToken()
+            if (token) {
+                config.headers["Authorization"] = `Bearer ${token}`
+            }
+            return config
         });
-
-        const { token } = JSON.parse(localStorage.getItem("current_user") || "{}");
-        if (token) {
-            this.auth.defaults.headers["Authorization"] = `Bearer ${token}`;
-        }
     }
 
     getApi() {
@@ -21,11 +20,17 @@ class AuthService {
     }
 
     setAuthorizationHeader(token) {
-        this.auth.defaults.headers["Authorization"] = `Bearer ${token}`;
+        localStorage.setItem('token', token)
+        this.auth.defaults.headers.common['Authorization'] = `Bearer ${token}`
     }
 
     removeAuthorizationHeader() {
-        delete this.auth.defaults.headers["Authorization"];
+        localStorage.removeItem('token');
+        delete this.auth.defaults.headers.common["Authorization"]
+    }
+
+    getToken() {
+        return localStorage.getItem('token')
     }
 }
 
