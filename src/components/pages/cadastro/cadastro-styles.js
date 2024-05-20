@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const CadastroContainer = styled.div`
   width: 94%;
   max-width: 1920px;
