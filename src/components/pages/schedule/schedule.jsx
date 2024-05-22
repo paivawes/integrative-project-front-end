@@ -1,21 +1,48 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScheduleContainer, ScheduleStyles, Title, ScheduleInputs, SpaceBetween } from './schedule-styles';
 import DateTime from "../../../DateTime";
 import AvailableRooms from "../../../AvailableRooms";
 import UserRequests from "../../../UserRequests";
 import { Input } from "../../atoms/input/input";
+import ScheduleService from "../../../service/schedule-service/schedule-service";
+import RoomService from "../../../service/room-service/room-service";
 
 export const Schedule = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [rooms, setRooms] = useState()
+  const [schedules, setSchedules] = useState()
+  const [availableRooms, setAvailableRooms] = useState()
+
+
+  const roomService = new RoomService();
+  const scheduleService = new ScheduleService()
+
+  const fetch = () => {
+    roomService.findAll().then((response) => {
+      setRooms(response.data)
+    })
+
+    scheduleService.findAll().then((response) => {
+      setSchedules(response.data)
+    })
+  }
+
+  const unavailableRoom = () => {
+    
+  }
+
+  useEffect(() => {
+    fetch()
+  }, [])
 
   return (
     <ScheduleContainer>
       <ScheduleStyles>
         <Title>{'Reservar Sala'}</Title>
         <ScheduleInputs>
-          <DateTime 
-            onChangeStartDate={date => setStartDate(date)} 
+          <DateTime
+            onChangeStartDate={date => setStartDate(date)}
             onChangeEndDate={date => setEndDate(date)}
           />
           {startDate && endDate && (
