@@ -9,14 +9,22 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Chip from '@mui/material/Chip';
 
-const requestsTest = [
-  {id: 1, user_id: 1, room_name: 'Sala 1', created_at: '2024-05-12T10:00:00', start_time: '2024-05-12T11:00:00', end_time: '2024-05-12T14:30:00', description: 'Lorem ipsum dolor sit amet', status: 'Pendente'},
-  {id: 2, user_id: 1, room_name: 'Sala 2', created_at: '2024-05-04T11:00:00', start_time: '2024-05-04T11:00:00', end_time: '2024-05-05T11:00:00', description: 'Sem obervações', status: 'Aprovada'}
-];
-
-function UserRequests() {
-  const [userRequests, setUserRequests] = useState(requestsTest);
+function UserRequests({requests}) {
+  const [userRequests, setUserRequests] = useState(requests);
   const hasRequests = userRequests.length > 0;
+
+  function getStatusAndColor(status) {
+    switch (status) {
+      case 'approved':
+       return {text: 'Aprovada', color:'success'};
+      case 'pending':
+        return {text: 'Pendente', color:'warning'};
+      case 'denied':
+        return {text: 'Reprovada', color:'error'};
+      default:
+        return 'default';
+    }
+  }
 
   if (!hasRequests) {
     return null;
@@ -38,19 +46,19 @@ function UserRequests() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {userRequests.map((request) => (
+            {userRequests?.map((request) => (
               <TableRow
                 key={request.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  <Chip label={request.status} color={getStatusColor(request.status)} variant="outlined" />
+                  <Chip label={getStatusAndColor(request.status).text} color={getStatusAndColor(request.status).color} variant="outlined" />
                 </TableCell>
-                <TableCell align="right" sx={{maxWidth: 150, whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>{request.room_name}</TableCell>
-                <TableCell align="right">{format(new Date(request.start_time), "dd/MM/yyyy HH:mm")}</TableCell>
-                <TableCell align="right">{format(new Date(request.end_time), "dd/MM/yyyy HH:mm")}</TableCell>
+                <TableCell align="right" sx={{maxWidth: 150, whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>{request.roomId.name}</TableCell>
+                <TableCell align="right">{format(new Date(request.startToScheduling), "dd/MM/yyyy HH:mm")}</TableCell>
+                <TableCell align="right">{format(new Date(request.endToScheduling), "dd/MM/yyyy HH:mm")}</TableCell>
                 <TableCell align="right" sx={{maxWidth: 150, whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>{request.description}</TableCell>
-                <TableCell align="right">{format(new Date(formatISO(request.created_at)), "dd/MM/yyyy")}</TableCell>
+                <TableCell align="right">{format(new Date(formatISO(request.createdAt)), "dd/MM/yyyy")}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -58,19 +66,6 @@ function UserRequests() {
       </TableContainer>
     </div>
   );
-}
-
-function getStatusColor(status) {
-  switch (status) {
-    case 'Aprovada':
-      return 'success';
-    case 'Pendente':
-      return 'warning';
-    case 'Reprovada':
-      return 'error';
-    default:
-      return 'default';
-  }
 }
 
 export default UserRequests;
