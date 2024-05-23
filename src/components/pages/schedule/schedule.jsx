@@ -1,13 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScheduleContainer, ScheduleStyles, Title, ScheduleInputs, SpaceBetween } from './schedule-styles';
 import DateTime from "../../../DateTime";
 import AvailableRooms from "../../../AvailableRooms";
 import UserRequests from "../../../UserRequests";
 import { Input } from "../../atoms/input/input";
+import ScheduleService from "../../../service/schedule-service/schedule-service";
+import { useUser } from "../../../context/user-context";
 
 export const Schedule = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const scheduleService = new ScheduleService();
+  const { user } = useUser()
+  const [userRequests, setUserRequests] = useState([]);
+
+  const getUserRequests = async () => {
+    await scheduleService.findAll({
+      user: user.id
+    }).then((res) => {
+      // console.log(res.data)
+      setUserRequests(res.data);
+    })
+  }
+
+  useEffect(() => {
+    getUserRequests()
+  }, [])
+
 
   return (
     <ScheduleContainer>
@@ -36,7 +55,7 @@ export const Schedule = () => {
         ) : (
           <div>
             <p>Escolha as datas para ver as salas disponíveis.</p>
-            <UserRequests />
+            <UserRequests requests={userRequests}/>
           </div>
         )}
       </ScheduleStyles>

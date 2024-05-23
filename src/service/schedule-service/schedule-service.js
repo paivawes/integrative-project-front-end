@@ -1,3 +1,5 @@
+import AuthService from "../auth-service/auth-service"
+
 class ScheduleService {
 
     path
