@@ -35,19 +35,15 @@ export const Schedule = () => {
   const roomService = new RoomService();
   const scheduleService = new ScheduleService()
 
-  // const fetch = () => {
-  //   roomService.findAll().then((response) => {
-  //     setRooms(response.data)
-  //   })
+  const fetch = async () => {
+   await roomService.findAll().then((response) => {
+      setRooms(response.data)
+    })
 
-  //   scheduleService.findAll().then((response) => {
-  //     setSchedules(response.data)
-  //   })
-  // }
-
-  // const unavailableRoom = () => {
-    
-  // }
+  await  scheduleService.findAll().then((response) => {
+      setSchedules(response.data)
+    })
+  }
 
   useEffect(() => {
     fetch()
