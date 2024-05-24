@@ -23,8 +23,8 @@ const schedulesTest = [
 //   {id: 2, user_id: 1, room_name: 'Sala 2', created_at: '2024-05-04T11:00:00', start_time: '2024-05-04T11:00:00', end_time: '2024-05-05T11:00:00', description: 'Sem obervações', status: 'Aprovada'}
 // ];
 
-function AvailableRooms({ startDate, endDate }) {
-  const [rooms, setRooms] = useState(roomsTest);
+function AvailableRooms({ startDate, endDate, availableRooms }) {
+  const [rooms, setRooms] = useState(availableRooms);
   const [error, setError] = useState(null);
   const [reservedRooms, setReservedRooms] = useState([]);
 
@@ -37,7 +37,7 @@ function AvailableRooms({ startDate, endDate }) {
           return;
         }
 
-        const filteredRooms = roomsTest.filter(room => {
+        const filteredRooms = rooms.filter(room => {
           const conflictedSchedule = schedulesTest.find(schedule =>
             schedule.room_id === room.id &&
             (

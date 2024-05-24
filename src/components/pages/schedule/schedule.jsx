@@ -6,6 +6,8 @@ import UserRequests from "../../../UserRequests";
 import { Input } from "../../atoms/input/input";
 import ScheduleService from "../../../service/schedule-service/schedule-service";
 import RoomService from "../../../service/room-service/room-service";
+import { useUser } from '../../../context/user-context';
+
 
 export const Schedule = () => {
   const [startDate, setStartDate] = useState(null);
@@ -13,6 +15,9 @@ export const Schedule = () => {
   const [rooms, setRooms] = useState()
   const [schedules, setSchedules] = useState()
   const [availableRooms, setAvailableRooms] = useState()
+  const [allSchedules, setAllSchedules] = useState([])
+
+  const { user } = useUser()
 
 
   const roomService = new RoomService();
@@ -23,13 +28,25 @@ export const Schedule = () => {
       setRooms(response.data)
     })
 
-    scheduleService.findAll().then((response) => {
+    scheduleService.findAll({
+      user: 3
+    }).then((response) => {
       setSchedules(response.data)
     })
   }
 
-  const unavailableRoom = () => {
-    
+  const unavailableRoom =  async () => {
+   await scheduleService.findAll({
+      startPeriod: startDate,
+      endPeriod: endDate
+    }).then((res) => {
+      setAllSchedules(res.data)
+    })
+
+    const findApproved = allSchedules.filter(schedule => schedule.status === 'approved')
+    const approvedRoomIds = findApproved.map(schedule => schedule.roomId.id)
+    const removeRooms = rooms.filter(room => !approvedRoomIds.includes(room.id))
+    setAvailableRooms(removeRooms)
   }
 
   useEffect(() => {
@@ -40,6 +57,7 @@ export const Schedule = () => {
     <ScheduleContainer>
       <ScheduleStyles>
         <Title>{'Reservar Sala'}</Title>
+          <button onClick={unavailableRoom}>teste</button>
         <ScheduleInputs>
           <DateTime
             onChangeStartDate={date => setStartDate(date)}
@@ -57,7 +75,7 @@ export const Schedule = () => {
         </ScheduleInputs>
         {(startDate && endDate) ? (
           <SpaceBetween>
-            <AvailableRooms startDate={startDate} endDate={endDate} />
+            <AvailableRooms startDate={startDate} endDate={endDate} availableRooms={availableRooms} />
             <UserRequests />
           </SpaceBetween>
         ) : (
