@@ -17,28 +17,24 @@ export const Schedule = () => {
   const [userRequests, setUserRequests] = useState([]);
   const { user } = useUser()
 
-  // const roomService = new RoomService();
-  // const scheduleService = new ScheduleService()
+  const roomService = new RoomService();
+  const scheduleService = new ScheduleService()
 
-  // const fetch = () => {
-  //   roomService.findAll().then((response) => {
-  //     setRooms(response.data)
-  //   })
+  const fetch = async () => {
+   await roomService.findAll().then((response) => {
+      setRooms(response.data)
+    })
 
-  //   scheduleService.findAll().then((response) => {
-  //     setSchedules(response.data)
-  //   })
-  // }
-
-  // const unavailableRoom = () => {
-    
-  // }
+  await  scheduleService.findAll().then((response) => {
+      setSchedules(response.data)
+    })
+  }
 
   const getUserRequests = async () => {
     await scheduleService.findAll({
-      user: user.id
+      user: 3
     }).then((res) => {
-      // console.log(res.data)
+      console.log(res.data, 'res')
       setUserRequests(res.data);
     })
   }
