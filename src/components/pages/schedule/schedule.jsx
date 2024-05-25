@@ -6,6 +6,7 @@ import UserRequests from "../../../UserRequests";
 import { Input } from "../../atoms/input/input";
 import ScheduleService from "../../../service/schedule-service/schedule-service";
 import RoomService from "../../../service/room-service/room-service";
+import { useUser } from "../../../context/user-context";
 
 export const Schedule = () => {
   const [startDate, setStartDate] = useState(null)
@@ -15,19 +16,25 @@ export const Schedule = () => {
   const [availableRooms, setAvailableRooms] = useState()
   const [userRequests, setUserRequests] = useState([])
   const [scheduleDescription, setScheduleDescription] = useState('')
-
-  // const { user } = useUser()
-
+  
+  const { user, hasConnection } = useUser()
+  
   const roomService = new RoomService()
   const scheduleService = new ScheduleService()
-
+  
+  useEffect(() => {
+    
+    hasConnection()
+  }, [])
+  console.log(user, 'aqui')
+  
   useEffect(() => {
     roomService.findAll().then((response) => {
       setRooms(response.data)
     })
 
     scheduleService.findAll({
-      user: 5,
+      user: user.id,
       startPeriod: null,
       endPeriod: null
     }).then((res) => {
@@ -49,6 +56,7 @@ export const Schedule = () => {
       setAvailableRooms(removeRooms)
     })
   }, [startDate, endDate])
+  
 
   return (
     <ScheduleContainer>

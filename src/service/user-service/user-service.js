@@ -15,9 +15,12 @@ export class UserService {
         try {
             const response = await this.auth.getApi().post(this.login, request)
             const token = response.data.token
-            
-            this.auth.setAuthorizationHeader(token)  
+            const user = response.data.user
 
+            localStorage.setItem('user', JSON.stringify(user))
+
+            this.auth.setAuthorizationHeader(token)
+            
             return response
         } catch (error) {
             console.error('Erro ao fazer login:', error)

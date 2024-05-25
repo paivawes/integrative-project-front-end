@@ -5,24 +5,25 @@ import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import { Button } from './components/atoms/button/button';
 import ScheduleService from './service/schedule-service/schedule-service';
+import { useUser } from './context/user-context';
 
 function AvailableRooms({ startDate, endDate, availableRoom, scheduleDescription }) {
   const [rooms, setRooms] = useState(availableRoom);
   const [error, setError] = useState(null);
-  const [reservedRooms, setReservedRooms] = useState([]);
+  const [reservedRooms, setReservedRooms] = useState([])
 
-  console.log(scheduleDescription , 'save')
+  const { user } = useUser()
 
   const scheduleService = new ScheduleService()
 
   const handleReserve = (roomId) => {
     scheduleService.create({
       description: scheduleDescription,
-      userId: 5,
+      userId: user.id,
       roomId: roomId,
       startToScheduling: startDate,
       endToScheduling: endDate
-    }).then(( res) => (console.log(res,   'res')))
+    }).then(() => setReservedRooms(roomId))
   };
 
   return (

@@ -17,8 +17,6 @@ function UserRequests({ requests }) {
     if(status === `denied`) return { text: 'Reprovada', color: 'error' }
     if(status === `approved`) return { text: 'Aprovada', color: 'success' }
   }
-
-  console.log(userRequests)
   
   useEffect(() => {
     setUserRequests(requests)
