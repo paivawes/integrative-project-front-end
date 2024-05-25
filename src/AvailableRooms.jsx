@@ -23,7 +23,12 @@ function AvailableRooms({ startDate, endDate, availableRoom, scheduleDescription
       roomId: roomId,
       startToScheduling: startDate,
       endToScheduling: endDate
-    }).then(() => setReservedRooms(roomId))
+    }).then(() => {
+      setReservedRooms(roomId)
+    })
+    .finally(() => {
+      location.reload()
+    })
   };
 
   return (

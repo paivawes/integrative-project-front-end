@@ -13,6 +13,7 @@ export class UserService {
 
     async log(request) {
         try {
+            localStorage.clear()
             const response = await this.auth.getApi().post(this.login, request)
             const token = response.data.token
             const user = response.data.user

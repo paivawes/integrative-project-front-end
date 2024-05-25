@@ -23,16 +23,15 @@ export const Schedule = () => {
   const scheduleService = new ScheduleService()
   
   useEffect(() => {
-    
     hasConnection()
   }, [])
-  console.log(user, 'aqui')
   
   useEffect(() => {
     roomService.findAll().then((response) => {
       setRooms(response.data)
     })
 
+    console.log(user)
     scheduleService.findAll({
       user: user.id,
       startPeriod: null,
@@ -88,7 +87,7 @@ export const Schedule = () => {
             availableRoom={availableRooms} 
             scheduleDescription={scheduleDescription}
             />
-            <UserRequests />
+            <UserRequests requests={userRequests} />
           </SpaceBetween>
         ) : (
           <div>

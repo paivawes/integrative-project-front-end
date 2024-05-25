@@ -4,11 +4,11 @@ import AuthService from "../service/auth-service/auth-service";
 const UserContext = createContext()
 
 export const useUser = () => useContext(UserContext)
+
 const userJson = localStorage.getItem("user")
 
 export const UserProvider = ({ children }) => { 
-    const [user, setUser] = useState(userJson)
-
+    const [user, setUser] = useState(JSON.parse(userJson))
     
     const authService = new AuthService()
 
