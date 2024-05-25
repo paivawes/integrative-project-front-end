@@ -10,16 +10,15 @@ function AvailableRooms({ startDate, endDate, availableRoom, scheduleDescription
   const [rooms, setRooms] = useState(availableRoom);
   const [error, setError] = useState(null);
   const [reservedRooms, setReservedRooms] = useState([]);
-  const [ description, setDescription ] = useState(scheduleDescription)
 
-  console.log(rooms)
+  console.log(scheduleDescription , 'save')
 
   const scheduleService = new ScheduleService()
 
   const handleReserve = (roomId) => {
     scheduleService.create({
-      description: description,
-      userId: 3,
+      description: scheduleDescription,
+      userId: 5,
       roomId: roomId,
       startToScheduling: startDate,
       endToScheduling: endDate

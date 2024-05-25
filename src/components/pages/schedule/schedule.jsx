@@ -14,7 +14,7 @@ export const Schedule = () => {
   const [schedules, setSchedules] = useState()
   const [availableRooms, setAvailableRooms] = useState()
   const [userRequests, setUserRequests] = useState([])
-  const [scheduleDescription, setScheduleDescription] = useState()
+  const [scheduleDescription, setScheduleDescription] = useState('')
 
   // const { user } = useUser()
 
@@ -27,7 +27,7 @@ export const Schedule = () => {
     })
 
     scheduleService.findAll({
-      user: 3,
+      user: 5,
       startPeriod: null,
       endPeriod: null
     }).then((res) => {
@@ -78,7 +78,7 @@ export const Schedule = () => {
             startDate={startDate} 
             endDate={endDate} 
             availableRoom={availableRooms} 
-            scheduleDescription
+            scheduleDescription={scheduleDescription}
             />
             <UserRequests />
           </SpaceBetween>
