@@ -10,7 +10,7 @@ class ScheduleService {
         this.auth = new AuthService()
     }
 
-    findAll({status, user, startPeriod, endPeriod}) {
+    findAll(user, status, startPeriod, endPeriod) {
         let queryParams = {}
 
         if (user) {

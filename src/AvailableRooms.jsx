@@ -5,24 +5,6 @@ import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import { Button } from './components/atoms/button/button';
 
-const roomsTest = [
-  {id: 1, name: 'Sala 1', capacity: 100},
-  {id: 2, name: 'Sala 2', capacity: 50},
-  {id: 3, name: 'Sala 3', capacity: 36},
-  {id: 4, name: 'Sala 4', capacity: 83}
-];
-
-const schedulesTest = [
-  {id: 1, user_id: 1, room_id: 1, created_at: '2024-05-12T10:00:00', start_time: '2024-05-12T11:00:00', end_time: '2024-05-12T14:30:00', description: 'Lorem ipsum dolor sit amet', status: 'Pendente'},
-  {id: 2, user_id: 1, room_id: 2, created_at: '2024-05-04T11:00:00', start_time: '2024-05-04T11:00:00', end_time: '2024-05-05T11:00:00', description: 'Sem obervações', status: 'Aprovada'},
-  {id: 3, user_id: 2, room_id: 3, created_at: '2024-12-02T10:00:00', start_time: '2024-12-02T11:00:00', end_time: '2024-12-02T14:30:00', description: 'Sem obervações', status: 'Reprovada'}
-];
-
-// const userRequestsTest = [
-//   {id: 1, user_id: 1, room_name: 'Sala 1', created_at: '2024-05-12T10:00:00', start_time: '2024-05-12T11:00:00', end_time: '2024-05-12T14:30:00', description: 'Lorem ipsum dolor sit amet', status: 'Pendente'},
-//   {id: 2, user_id: 1, room_name: 'Sala 2', created_at: '2024-05-04T11:00:00', start_time: '2024-05-04T11:00:00', end_time: '2024-05-05T11:00:00', description: 'Sem obervações', status: 'Aprovada'}
-// ];
-
 function AvailableRooms({ startDate, endDate }) {
   const [rooms, setRooms] = useState(roomsTest);
   const [error, setError] = useState(null);

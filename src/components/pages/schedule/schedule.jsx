@@ -13,40 +13,26 @@ export const Schedule = () => {
   const [rooms, setRooms] = useState()
   const [schedules, setSchedules] = useState()
   const [availableRooms, setAvailableRooms] = useState()
-  const [userRequests, setUserRequests] = useState([]);
-  
-  const { user } = useUser()
-  
-  const getUserRequests = async () => {
-    await scheduleService.findAll({
-      user: user.id
-    }).then((res) => {
-      // console.log(res.data)
-      setUserRequests(res.data);
-    })
-  }
-  
-  useEffect(() => {
-    getUserRequests()
-  }, [])
-  
-  
-  
+  const [userRequests, setUserRequests] = useState([])
+
+  // const { user } = useUser()
+
   const roomService = new RoomService();
   const scheduleService = new ScheduleService()
 
-  const fetch = async () => {
-   await roomService.findAll().then((response) => {
+  useEffect(() => {
+    roomService.findAll().then((response) => {
       setRooms(response.data)
     })
 
-  await  scheduleService.findAll().then((response) => {
+    scheduleService.findAll().then((response) => {
       setSchedules(response.data)
     })
-  }
 
-  useEffect(() => {
-    fetch()
+   scheduleService.findAll(3).then((res) => {
+      const request = res.data
+      setUserRequests(request)
+    })
   }, [])
 
   return (
@@ -76,7 +62,7 @@ export const Schedule = () => {
         ) : (
           <div>
             <p>Escolha as datas para ver as salas disponíveis.</p>
-            <UserRequests requests={userRequests}/>
+            <UserRequests requests={userRequests} />
           </div>
         )}
       </ScheduleStyles>

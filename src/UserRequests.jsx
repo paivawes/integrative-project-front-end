@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { format, formatISO } from 'date-fns';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,32 +9,25 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import Chip from '@mui/material/Chip';
 
-function UserRequests({requests}) {
+function UserRequests({ requests }) {
   const [userRequests, setUserRequests] = useState(requests);
-  const hasRequests = userRequests.length > 0;
 
-  function getStatusAndColor(status) {
-    switch (status) {
-      case 'approved':
-       return {text: 'Aprovada', color:'success'};
-      case 'pending':
-        return {text: 'Pendente', color:'warning'};
-      case 'denied':
-        return {text: 'Reprovada', color:'error'};
-      default:
-        return 'default';
-    }
+  const getStatusAndColor = (status) => {
+    if(status === `pending`) return  { text: 'Pendente', color: 'warning' }
+    if(status === `denied`) return { text: 'Reprovada', color: 'error' }
+    if(status === `approved`) return { text: 'Aprovada', color: 'success' }
   }
-
-  if (!hasRequests) {
-    return null;
-  }
+  
+  useEffect(() => {
+    setUserRequests(requests)
+    console.log(userRequests, `userResquets`)
+  }, [requests])
 
   return (
     <div>
       <h2>Solicitações</h2>
-      <TableContainer sx={{maxWidth: 800}} component={Paper}>
-        <Table sx={{minWidth: 650}} aria-label="simple table">
+      <TableContainer sx={{ maxWidth: 800 }} component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Status</TableCell>
@@ -54,10 +47,10 @@ function UserRequests({requests}) {
                 <TableCell component="th" scope="row">
                   <Chip label={getStatusAndColor(request.status).text} color={getStatusAndColor(request.status).color} variant="outlined" />
                 </TableCell>
-                <TableCell align="right" sx={{maxWidth: 150, whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>{request.roomId.name}</TableCell>
+                <TableCell align="right" sx={{ maxWidth: 150, whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{request.roomId.name}</TableCell>
                 <TableCell align="right">{format(new Date(request.startToScheduling), "dd/MM/yyyy HH:mm")}</TableCell>
                 <TableCell align="right">{format(new Date(request.endToScheduling), "dd/MM/yyyy HH:mm")}</TableCell>
-                <TableCell align="right" sx={{maxWidth: 150, whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis"}}>{request.description}</TableCell>
+                <TableCell align="right" sx={{ maxWidth: 150, whiteSpace: 'nowrap', overflow: "hidden", textOverflow: "ellipsis" }}>{request.description}</TableCell>
                 <TableCell align="right">{format(new Date(formatISO(request.createdAt)), "dd/MM/yyyy")}</TableCell>
               </TableRow>
             ))}
@@ -66,19 +59,6 @@ function UserRequests({requests}) {
       </TableContainer>
     </div>
   );
-}
-
-function getStatusColor(status) {
-  switch (status) {
-    case 'Aprovada':
-      return 'success';
-    case 'Pendente':
-      return 'warning';
-    case 'Reprovada':
-      return 'error';
-    default:
-      return 'default';
-  }
 }
 
 export default UserRequests;
