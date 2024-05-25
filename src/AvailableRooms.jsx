@@ -4,47 +4,26 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import { Button } from './components/atoms/button/button';
+import ScheduleService from './service/schedule-service/schedule-service';
 
-function AvailableRooms({ startDate, endDate }) {
-  const [rooms, setRooms] = useState(roomsTest);
+function AvailableRooms({ startDate, endDate, availableRoom, scheduleDescription }) {
+  const [rooms, setRooms] = useState(availableRoom);
   const [error, setError] = useState(null);
   const [reservedRooms, setReservedRooms] = useState([]);
+  const [ description, setDescription ] = useState(scheduleDescription)
 
-  useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        if (startDate >= endDate) {
-          setError('O horário de término deve ser posterior ao horário de início.');
-          setRooms([]);
-          return;
-        }
-    
-        const filteredRooms = roomsTest.filter(room => {
-          const conflictedSchedule = schedulesTest.find(schedule =>
-            schedule.room_id === room.id &&
-            (
-              (startDate >= new Date(schedule.start_time) && startDate < new Date(schedule.end_time)) ||
-              (endDate > new Date(schedule.start_time) && endDate <= new Date(schedule.end_time)) ||
-              (startDate <= new Date(schedule.start_time) && endDate >= new Date(schedule.end_time))
-            )
-          );
-    
-          return !conflictedSchedule || conflictedSchedule.status !== 'Aprovada';
-        });
-    
-        setRooms(filteredRooms);
-        setError(null);
-      } catch (error) {
-        console.error('Erro ao buscar salas:', error);
-        setError('Erro ao buscar salas');
-      }
-    };    
+  console.log(rooms)
 
-    fetchRooms();
-  }, [startDate, endDate]);
+  const scheduleService = new ScheduleService()
 
   const handleReserve = (roomId) => {
-    setReservedRooms([...reservedRooms, roomId]);
+    scheduleService.create({
+      description: description,
+      userId: 3,
+      roomId: roomId,
+      startToScheduling: startDate,
+      endToScheduling: endDate
+    }).then(( res) => (console.log(res,   'res')))
   };
 
   return (
@@ -52,7 +31,7 @@ function AvailableRooms({ startDate, endDate }) {
       <h2>Salas Disponíveis</h2>
       {!error ? (
         <List sx={{ width: 400 }} component={Paper}>
-          {rooms.map((room) => (
+          {rooms?.map((room) => (
             <ListItem key={room.id}>
               <ListItemText
                 primary= {room.name}
@@ -73,8 +52,4 @@ function AvailableRooms({ startDate, endDate }) {
   );
 }
 
-<<<<<<< HEAD
 export default AvailableRooms;
-=======
-export default AvailableRooms;
->>>>>>> ad0da92 (fix: export schedule)

@@ -8,16 +8,17 @@ import ScheduleService from "../../../service/schedule-service/schedule-service"
 import RoomService from "../../../service/room-service/room-service";
 
 export const Schedule = () => {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+  const [startDate, setStartDate] = useState(null)
+  const [endDate, setEndDate] = useState(null)
   const [rooms, setRooms] = useState()
   const [schedules, setSchedules] = useState()
   const [availableRooms, setAvailableRooms] = useState()
   const [userRequests, setUserRequests] = useState([])
+  const [scheduleDescription, setScheduleDescription] = useState()
 
   // const { user } = useUser()
 
-  const roomService = new RoomService();
+  const roomService = new RoomService()
   const scheduleService = new ScheduleService()
 
   useEffect(() => {
@@ -25,15 +26,29 @@ export const Schedule = () => {
       setRooms(response.data)
     })
 
-    scheduleService.findAll().then((response) => {
-      setSchedules(response.data)
-    })
-
-   scheduleService.findAll(3).then((res) => {
+    scheduleService.findAll({
+      user: 3,
+      startPeriod: null,
+      endPeriod: null
+    }).then((res) => {
       const request = res.data
       setUserRequests(request)
     })
   }, [])
+
+  useEffect(() => {
+    scheduleService.findAll({
+      user: null,
+      startPeriod: startDate,
+      endPeriod: endDate
+    }).then((response) => {
+      setSchedules(response.data)
+      const findApproved = schedules.filter(schedule => schedule.status === 'approved')
+      const approvedRoomIds = findApproved?.map(schedule => schedule.roomId.id)
+      const removeRooms = rooms.filter(room => !approvedRoomIds.includes(room.id))
+      setAvailableRooms(removeRooms)
+    })
+  }, [startDate, endDate])
 
   return (
     <ScheduleContainer>
@@ -41,8 +56,8 @@ export const Schedule = () => {
         <Title>{'Reservar Sala'}</Title>
         <ScheduleInputs>
           <DateTime
-            onChangeStartDate={date => setStartDate(date)}
-            onChangeEndDate={date => setEndDate(date)}
+            onChangeStartDate={date => setStartDate(date.toISOString())}
+            onChangeEndDate={date => setEndDate(date.toISOString())}
           />
           {startDate && endDate && (
             <div>
@@ -50,13 +65,21 @@ export const Schedule = () => {
               <Input
                 width={300}
                 label={'Observações (opcional)'}
+                value={scheduleDescription}
+                onChange={(e) => setScheduleDescription(e.target.value)}
+                type={'text'}
               />
             </div>
           )}
         </ScheduleInputs>
         {(startDate && endDate) ? (
           <SpaceBetween>
-            <AvailableRooms startDate={startDate} endDate={endDate} />
+            <AvailableRooms 
+            startDate={startDate} 
+            endDate={endDate} 
+            availableRoom={availableRooms} 
+            scheduleDescription
+            />
             <UserRequests />
           </SpaceBetween>
         ) : (
