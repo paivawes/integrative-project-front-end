@@ -31,7 +31,6 @@ export const Schedule = () => {
       setRooms(response.data)
     })
 
-    console.log(user)
     scheduleService.findAll({
       user: user.id,
       startPeriod: null,
