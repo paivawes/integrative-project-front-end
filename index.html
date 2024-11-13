@@ -7,6 +7,17 @@
   </head>
   <body>
     <div id="root"></div>
+    <div vw class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div class="vw-plugin-top-wrapper"></div>
+      </div>
+    </div>
+    
+    <!-- Script do VLibras -->
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js" onload="new window.VLibras.Widget('https://vlibras.gov.br/app');"></script>
+    
+    <!-- Script principal da aplicação -->
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
